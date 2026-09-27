@@ -1,8 +1,8 @@
 [
     {
         "ConfigFile": "csgo/cfg/server.cfg",
-        "AutoMap": true,
-        "ConfigType": "template",
-        "ConfigFileTemplate": "counter-strike-goserver.cfg"
+        "AutoMap": false,
+        "ConfigType": "auto",
+        "ConfigFileTemplate": "csgo/AMP_server.cfg"
     }
 ]
