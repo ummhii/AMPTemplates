@@ -3,6 +3,6 @@
         "ConfigFile": "csgo/cfg/server.cfg",
         "AutoMap": true,
         "ConfigType": "template",
-        "ConfigFileTemplate": "csgo/counter-strike-global-offensive-2018server.cfg"
+        "ConfigFileTemplate": "counter-strike-goserver.cfg"
     }
 ]
