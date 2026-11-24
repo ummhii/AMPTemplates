@@ -160,5 +160,13 @@
         "UpdateSource": "Executable",
         "UpdateSourceData": "powershell.exe",
         "UpdateSourceArgs": "-NoProfile -Command \"if (Test-Path 'csgo\\740\\csgo\\steam.inf') { (Get-Content 'csgo\\740\\csgo\\steam.inf') -replace '^\\s*appID=730\\s*$', 'appID=4465480' | Set-Content 'csgo\\740\\csgo\\steam.inf' }\""
+    },
+    {
+        "UpdateStageName": "SteamCMD Server Download",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "SteamCMD",
+        "UpdateSourceData": "740",
+        "UpdateSourceArgs": "4465480",
+        "OneShot": true
     }
 ]
