@@ -1,0 +1,164 @@
+[
+    {
+        "UpdateStageName": "DepotDownloader Download",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"wget -qO depotdownloader.zip \\\"https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_3.4.0/DepotDownloader-linux-x64.zip\\\" && echo \\\"DepotDownloader 3.4.0 downloaded\\\"\""
+    },
+    {
+        "UpdateStageName": "DepotDownloader Download",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "powershell.exe",
+        "UpdateSourceArgs": "-NoProfile -Command \"$ProgressPreference='SilentlyContinue'; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_3.4.0/DepotDownloader-windows-x64.zip' -OutFile 'depotdownloader.zip'; if ($?) { Write-Output 'DepotDownloader 3.4.0 downloaded' } else { exit 1 }\""
+    },
+    {
+        "UpdateStageName": "DepotDownloader Extract",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "ExtractArchive",
+        "UpdateSourceData": "depotdownloader.zip",
+        "UpdateSourceTarget": "{{$FullRootDir}}depotdownloader",
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true
+    },
+    {
+        "UpdateStageName": "CS:GO March 2018 Depot Download",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"chmod +x csgo/depotdownloader/DepotDownloader && DepotUser='{{DepotSteamUsername}}' && DepotPass='{{DepotSteamPassword}}' && LoginArgs=() && if [[ -n \\\"$DepotUser\\\" ]]; then LoginArgs=(-username \\\"$DepotUser\\\" -remember-password); if [[ -n \\\"$DepotPass\\\" ]]; then LoginArgs+=(-password \\\"$DepotPass\\\"); fi; fi; ./csgo/depotdownloader/DepotDownloader -app 740 -depot 731 -manifest 1726760845998127111 -dir csgo/740 \\\"${LoginArgs[@]}\\\" && [[ -f csgo/740/.DepotDownloader/731_1726760845998127111.manifest ]] && ./csgo/depotdownloader/DepotDownloader -app 740 -depot 740 -manifest 9121620377426899826 -dir csgo/740 \\\"${LoginArgs[@]}\\\" && [[ -f csgo/740/.DepotDownloader/740_9121620377426899826.manifest ]] && echo \\\"CS:GO March 2018 depots 731 and 740 installed\\\" || { echo \\\"CS:GO March 2018 depot download failed\\\"; exit 1; }\""
+    },
+    {
+        "UpdateStageName": "CS:GO March 2018 Depot Download",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "powershell.exe",
+        "UpdateSourceArgs": "-NoProfile -Command \"$DepotUser='{{DepotSteamUsername}}'; $DepotPass='{{DepotSteamPassword}}'; $LoginArgs=@(); if (-not [string]::IsNullOrWhiteSpace($DepotUser)) { $LoginArgs += @('-username', $DepotUser, '-remember-password'); if (-not [string]::IsNullOrEmpty($DepotPass)) { $LoginArgs += @('-password', $DepotPass) } }; foreach ($Pair in @(@('731','1726760845998127111'), @('740','9121620377426899826'))) { & '.\\csgo\\depotdownloader\\DepotDownloader.exe' -app 740 -depot $Pair[0] -manifest $Pair[1] -dir 'csgo\\740' @LoginArgs; if ($LASTEXITCODE -ne 0 -or -not (Test-Path ('csgo\\740\\.DepotDownloader\\' + $Pair[0] + '_' + $Pair[1] + '.manifest'))) { Write-Output ('CS:GO March 2018 depot ' + $Pair[0] + ' download failed'); exit 1 } }; Write-Output 'CS:GO March 2018 depots 731 and 740 installed'\""
+    },
+    {
+        "UpdateStageName": "Remove Old Library",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"rm -rf csgo/740/bin/libgcc_s.so.1 >/dev/null 2>&1\"",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "Server.cfg Template File Download",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://cdn-repo.c7rs.com/AMPTemplates/counter-strike-goserver.cfg",
+        "UpdateSourceArgs": "AMP_server.cfg",
+        "UpdateSourceTarget": "{{$FullRootDir}}",
+        "OverwriteExistingFiles": true
+    },
+    {
+        "UpdateStageName": "Metamod Download",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"MetamodBuild=\\\"{{MetamodBuild}}\\\" && MetamodBranch=\\\"{{ModBranch}}\\\" && if [[ -z \\\"$MetamodBuild\\\" ]]; then wget -qO metamod.tar.gz \\\"https://metamodsource.net/latest.php?os=linux&version=$MetamodBranch\\\" && echo \\\"Latest Metamod $MetamodBranch build downloaded\\\" && exit 0; elif [[ ! \\\"$MetamodBuild\\\" =~ ^[0-9]+$ ]]; then echo \\\"Invalid Metamod build version format specified\\\" && exit 1; fi; if { [[ \\\"$MetamodBranch\\\" == \\\"2.0\\\" ]] && [[ \\\"$MetamodBuild\\\" -ge 1391 ]]; } || { [[ \\\"$MetamodBranch\\\" == \\\"1.12\\\" ]] && [[ \\\"$MetamodBuild\\\" -ge 1221 ]]; }; then DownloadURL=\\\"https://github.com/alliedmodders/metamod-source/releases/download/$MetamodBranch.0.$MetamodBuild/mmsource-$MetamodBranch.0-git$MetamodBuild-linux.tar.gz\\\"; else FileName=$(wget -qO- \\\"https://mms.alliedmods.net/mmsdrop/$MetamodBranch/\\\" | grep -oE \\\"mmsource-$MetamodBranch\\.[0-9]+-git$MetamodBuild-linux\\.tar\\.gz\\\" | head -n 1); if [[ -z \\\"$FileName\\\" ]]; then echo \\\"Metamod $MetamodBranch build $MetamodBuild not found\\\" && exit 1; fi; DownloadURL=\\\"https://mms.alliedmods.net/mmsdrop/$MetamodBranch/$FileName\\\"; fi; wget -qO metamod.tar.gz \\\"$DownloadURL\\\" && echo \\\"Metamod $MetamodBranch build $MetamodBuild downloaded\\\"\""
+    },
+    {
+        "UpdateStageName": "Metamod Download",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "powershell.exe",
+        "UpdateSourceArgs": "-NoProfile -Command \"$ProgressPreference='SilentlyContinue'; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $MetamodBuild='{{MetamodBuild}}'; $MetamodBranch='{{ModBranch}}'; if ([string]::IsNullOrWhiteSpace($MetamodBuild)) { Invoke-WebRequest -UseBasicParsing -Uri \\\"https://metamodsource.net/latest.php?os=windows&version=$MetamodBranch\\\" -OutFile 'metamod.zip'; if ($?) { Write-Output \\\"Latest Metamod $MetamodBranch build downloaded\\\"; exit 0 } } elseif ($MetamodBuild -notmatch '^\\d+$') { Write-Output \\\"Invalid Metamod build version format specified\\\"; exit 1 }; if (($MetamodBranch -eq '2.0' -and [int]$MetamodBuild -ge 1391) -or ($MetamodBranch -eq '1.12' -and [int]$MetamodBuild -ge 1221)) { $DownloadURL = \\\"https://github.com/alliedmodders/metamod-source/releases/download/$MetamodBranch.0.$MetamodBuild/mmsource-$MetamodBranch.0-git$MetamodBuild-windows.zip\\\" } else { $Listing = (Invoke-WebRequest -UseBasicParsing -Uri \\\"https://mms.alliedmods.net/mmsdrop/$MetamodBranch/\\\").Content; $FileName = [regex]::Match($Listing, \\\"mmsource-$MetamodBranch\\.\\d+-git$MetamodBuild-windows\\.zip\\\").Value; if ([string]::IsNullOrEmpty($FileName)) { Write-Output \\\"Metamod $MetamodBranch build $MetamodBuild not found\\\"; exit 1 }; $DownloadURL = \\\"https://mms.alliedmods.net/mmsdrop/$MetamodBranch/$FileName\\\" }; Invoke-WebRequest -UseBasicParsing -Uri $DownloadURL -OutFile 'metamod.zip'; if ($?) { Write-Output \\\"Metamod $MetamodBranch build $MetamodBuild downloaded\\\" }\""
+    },
+    {
+        "UpdateStageName": "Metamod Extract",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "ExtractArchive",
+        "UpdateSourceData": "metamod.tar.gz",
+        "UpdateSourceTarget": "{{$FullBaseDir}}csgo",
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true
+    },
+    {
+        "UpdateStageName": "Metamod Extract",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "ExtractArchive",
+        "UpdateSourceData": "metamod.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}csgo",
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true
+    },
+    {
+        "UpdateStageName": "SourceMod Download Directory Creation",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "CreateDirectory",
+        "UpdateSourceArgs": "{{$FullBaseDir}}sm"
+    },
+    {
+        "UpdateStageName": "SourceMod Download",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"SourceModBuild=\\\"{{SourceModVersion}}\\\" && SourceModBranch=\\\"{{SourceModBranch}}\\\" && if [[ -z \\\"$SourceModBuild\\\" ]]; then wget -qO sourcemod.tar.gz \\\"https://sourcemod.net/latest.php?os=linux&version=$SourceModBranch\\\" && echo \\\"Latest SourceMod $SourceModBranch build downloaded\\\" && exit 0; elif [[ ! \\\"$SourceModBuild\\\" =~ ^[0-9]+$ ]]; then echo \\\"Invalid SourceMod build version format specified\\\" && exit 1; fi; if { [[ \\\"$SourceModBranch\\\" == \\\"1.13\\\" ]] && [[ \\\"$SourceModBuild\\\" -ge 7311 ]]; } || { [[ \\\"$SourceModBranch\\\" == \\\"1.12\\\" ]] && [[ \\\"$SourceModBuild\\\" -ge 7225 ]]; }; then DownloadURL=\\\"https://github.com/alliedmodders/sourcemod/releases/download/$SourceModBranch.0.$SourceModBuild/sourcemod-$SourceModBranch.0-git$SourceModBuild-linux.tar.gz\\\"; else DownloadURL=\\\"https://sm.alliedmods.net/smdrop/$SourceModBranch/sourcemod-$SourceModBranch.0-git$SourceModBuild-linux.tar.gz\\\"; fi; wget -qO sourcemod.tar.gz \\\"$DownloadURL\\\" && echo \\\"SourceMod $SourceModBranch build $SourceModBuild downloaded\\\"\""
+    },
+    {
+        "UpdateStageName": "SourceMod Download",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "powershell.exe",
+        "UpdateSourceArgs": "-NoProfile -Command \"$ProgressPreference='SilentlyContinue'; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $SourceModBuild='{{SourceModVersion}}'; $SourceModBranch='{{SourceModBranch}}'; if ([string]::IsNullOrWhiteSpace($SourceModBuild)) { Invoke-WebRequest -UseBasicParsing -Uri \\\"https://sourcemod.net/latest.php?os=windows&version=$SourceModBranch\\\" -OutFile 'sourcemod.zip'; if ($?) { Write-Output \\\"Latest SourceMod $SourceModBranch build downloaded\\\"; exit 0 } } elseif ($SourceModBuild -notmatch '^\\d+$') { Write-Output \\\"Invalid SourceMod build version format specified\\\"; exit 1 }; if (($SourceModBranch -eq '1.13' -and [int]$SourceModBuild -ge 7311) -or ($SourceModBranch -eq '1.12' -and [int]$SourceModBuild -ge 7225)) { $DownloadURL = \\\"https://github.com/alliedmodders/sourcemod/releases/download/$SourceModBranch.0.$SourceModBuild/sourcemod-$SourceModBranch.0-git$SourceModBuild-windows.zip\\\" } else { $DownloadURL = \\\"https://sm.alliedmods.net/smdrop/$SourceModBranch/sourcemod-$SourceModBranch.0-git$SourceModBuild-windows.zip\\\" }; Invoke-WebRequest -UseBasicParsing -Uri $DownloadURL -OutFile 'sourcemod.zip'; if ($?) { Write-Output \\\"SourceMod $SourceModBranch build $SourceModBuild downloaded\\\" }\""
+    },
+    {
+        "UpdateStageName": "SourceMod Extract",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "ExtractArchive",
+        "UpdateSourceData": "sourcemod.tar.gz",
+        "UpdateSourceTarget": "{{$FullBaseDir}}sm",
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true
+    },
+    {
+        "UpdateStageName": "SourceMod Extract",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "ExtractArchive",
+        "UpdateSourceData": "sourcemod.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}sm",
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true
+    },
+    {
+        "UpdateStageName": "SourceMod Installation",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "powershell.exe",
+        "UpdateSourceArgs": "-NoProfile -Command \"Set-Location -Path 'csgo/740'; if (Test-Path 'csgo/cfg/sourcemod') { Remove-Item -Path 'sm/cfg/sourcemod' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null }; if (Test-Path 'csgo/addons/sourcemod/configs') { Remove-Item -Path 'sm/addons/sourcemod/configs' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null }; if (Test-Path 'csgo/addons/sourcemod/plugins') { Remove-Item -Path 'sm/addons/sourcemod/plugins' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null }; Copy-Item -Path 'sm/*' -Destination 'csgo' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null; Remove-Item -Path 'sm' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null\"",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "SourceMod Installation",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"cd csgo/740 && [ -d csgo/cfg/sourcemod ] && rm -rf sm/cfg/sourcemod >/dev/null 2>&1; [ -d csgo/addons/sourcemod/configs ] && rm -rf sm/addons/sourcemod/configs >/dev/null 2>&1; [ -d csgo/addons/sourcemod/plugins ] && rm -rf sm/addons/sourcemod/plugins >/dev/null 2>&1; \\cp -rf sm/* csgo/ >/dev/null 2>&1; rm -rf sm >/dev/null 2>&1\"",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "Activate Metamod and SourceMod",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "CreateFile",
+        "UpdateSourceData": "\"Plugin\"\n{\n\t\"file\"\t\"../csgo/addons/metamod/bin/server\"\n}",
+        "UpdateSourceArgs": "{{$FullBaseDir}}csgo/addons/metamod.vdf",
+        "OverwriteExistingFiles": true
+    },
+    {
+        "UpdateStageName": "Update steam.inf File",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"if [[ -f csgo/740/csgo/steam.inf ]]; then sed -i \\\"s/^\\s*appID=730\\s*$/appID=4465480/\\\" csgo/740/csgo/steam.inf; fi\""
+    },
+    {
+        "UpdateStageName": "Update steam.inf File",
+        "UpdateSourcePlatform": "Windows",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "powershell.exe",
+        "UpdateSourceArgs": "-NoProfile -Command \"if (Test-Path 'csgo\\740\\csgo\\steam.inf') { (Get-Content 'csgo\\740\\csgo\\steam.inf') -replace '^\\s*appID=730\\s*$', 'appID=4465480' | Set-Content 'csgo\\740\\csgo\\steam.inf' }\""
+    }
+]

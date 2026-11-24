@@ -4,12 +4,11 @@
         "Category": "CSGO:stadia_controller",
         "Subcategory": "Server:dns:1",
         "Description": "",
-        "Keywords": "",
         "FieldName": "$RemoteAdminPassword",
         "InputType": "text",
         "Hidden": true,
         "ParamFieldName": "rcon_password",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Server Name",
@@ -20,8 +19,7 @@
         "FieldName": "hostname",
         "InputType": "text",
         "ParamFieldName": "hostname",
-        "DefaultValue": "AMP Powered Counter-Strike: Global Offensive Server",
-        "EnumValues": {}
+        "DefaultValue": "AMP Powered Counter-Strike: Global Offensive Server"
     },
     {
         "DisplayName": "Server Mod Name",
@@ -33,8 +31,7 @@
         "InputType": "text",
         "ParamFieldName": "mod",
         "DefaultValue": "csgo",
-        "Placeholder": "csgo",
-        "EnumValues": {}
+        "Placeholder": "csgo"
     },
     {
         "DisplayName": "Server Steam Group",
@@ -45,8 +42,7 @@
         "FieldName": "sv_steamgroup",
         "InputType": "text",
         "ParamFieldName": "sv_steamgroup",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "LAN Server",
@@ -75,8 +71,7 @@
         "IncludeInCommandLine": true,
         "SkipIfEmpty": true,
         "DefaultValue": "",
-        "Placeholder": "6544F7E034119F113526E96474F559AH",
-        "EnumValues": {}
+        "Placeholder": "6544F7E034119F113526E96474F559AH"
     },
     {
         "DisplayName": "Server Password",
@@ -87,8 +82,7 @@
         "FieldName": "sv_password",
         "InputType": "Password",
         "ParamFieldName": "sv_password",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Initial Game Mode",
@@ -216,8 +210,7 @@
         "FieldName": "CustomMap",
         "InputType": "text",
         "ParamFieldName": "CustomMap",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Server Region",
@@ -230,7 +223,6 @@
         "ParamFieldName": "sv_region",
         "DefaultValue": "-1",
         "EnumValues": {
-            "-1": "No region",
             "0": "East Coast US",
             "1": "West Coast US",
             "2": "South America",
@@ -239,7 +231,8 @@
             "5": "Australia",
             "6": "Middle East",
             "7": "Africa",
-            "255": "World"
+            "255": "World",
+            "-1": "No region"
         }
     },
     {
@@ -252,8 +245,7 @@
         "InputType": "text",
         "ParamFieldName": "mapgroup",
         "DefaultValue": "",
-        "Placeholder": "mg_allclassic",
-        "EnumValues": {}
+        "Placeholder": "mg_allclassic"
     },
     {
         "DisplayName": "Workshop Map ID",
@@ -265,8 +257,7 @@
         "InputType": "number",
         "ParamFieldName": "host_workshop_map",
         "DefaultValue": "",
-        "Placeholder": "419404847",
-        "EnumValues": {}
+        "Placeholder": "419404847"
     },
     {
         "DisplayName": "Workshop Collection ID",
@@ -278,8 +269,7 @@
         "InputType": "number",
         "ParamFieldName": "host_workshop_collection",
         "DefaultValue": "",
-        "Placeholder": "1990403587",
-        "EnumValues": {}
+        "Placeholder": "1990403587"
     },
     {
         "DisplayName": "Steam Web API Key",
@@ -290,8 +280,7 @@
         "FieldName": "authkey",
         "InputType": "Password",
         "ParamFieldName": "authkey",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Allow Other Map By Players",
@@ -316,13 +305,12 @@
         "Keywords": "max,players,limit,maxplayers",
         "FieldName": "$MaxUsers",
         "InputType": "number",
-        "MinValue": "1",
-        "MaxValue": "128",
+        "MinValue": 1,
+        "MaxValue": 128,
         "ParamFieldName": "sv_maxplayers",
         "DefaultValue": "8",
         "Placeholder": "8",
-        "Suffix": "players",
-        "EnumValues": {}
+        "Suffix": "players"
     },
     {
         "DisplayName": "Visible Player Limit",
@@ -332,13 +320,12 @@
         "Keywords": "visible,max,players,sv_visiblemaxplayers",
         "FieldName": "sv_visiblemaxplayers",
         "InputType": "number",
-        "MinValue": "-1",
-        "MaxValue": "100",
+        "MinValue": -1,
+        "MaxValue": 100,
         "ParamFieldName": "sv_visiblemaxplayers",
         "DefaultValue": "-1",
         "Placeholder": "-1",
-        "Suffix": "players",
-        "EnumValues": {}
+        "Suffix": "players"
     },
     {
         "DisplayName": "Pure Server Mode",
@@ -439,13 +426,12 @@
         "Keywords": "tick,rate,tickrate",
         "FieldName": "tickrate",
         "InputType": "number",
-        "MinValue": "1",
-        "MaxValue": "128",
+        "MinValue": 1,
+        "MaxValue": 128,
         "ParamFieldName": "tickrate",
         "DefaultValue": "64",
         "Placeholder": "64",
-        "Suffix": "tps",
-        "EnumValues": {}
+        "Suffix": "tps"
     },
     {
         "DisplayName": "Allow Download From Server",
@@ -472,8 +458,7 @@
         "InputType": "text",
         "ParamFieldName": "sv_downloadurl",
         "DefaultValue": "",
-        "Placeholder": "http://example.com",
-        "EnumValues": {}
+        "Placeholder": "http://example.com"
     },
     {
         "DisplayName": "Allow Upload To Server",
@@ -498,12 +483,11 @@
         "Keywords": "minimum,bandwidth,rate,sv_minrate",
         "FieldName": "sv_minrate",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "sv_minrate",
         "DefaultValue": "16000",
         "Placeholder": "16000",
-        "Suffix": "bytes/second",
-        "EnumValues": {}
+        "Suffix": "bytes/second"
     },
     {
         "DisplayName": "Maximum Client Rate",
@@ -513,12 +497,11 @@
         "Keywords": "maximum,bandwidth,rate,sv_maxrate",
         "FieldName": "sv_maxrate",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "sv_maxrate",
         "DefaultValue": "0",
         "Placeholder": "0",
-        "Suffix": "bytes/second",
-        "EnumValues": {}
+        "Suffix": "bytes/second"
     },
     {
         "DisplayName": "Minimum Server Update Rate",
@@ -528,11 +511,10 @@
         "Keywords": "minimum,update,rate,sv_minupdaterate",
         "FieldName": "sv_minupdaterate",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "sv_minupdaterate",
         "DefaultValue": "64",
-        "Placeholder": "64",
-        "EnumValues": {}
+        "Placeholder": "64"
     },
     {
         "DisplayName": "Maximum Server Update Rate",
@@ -542,11 +524,10 @@
         "Keywords": "maximum,update,rate,sv_maxupdaterate",
         "FieldName": "sv_maxupdaterate",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "sv_maxupdaterate",
         "DefaultValue": "64",
-        "Placeholder": "64",
-        "EnumValues": {}
+        "Placeholder": "64"
     },
     {
         "DisplayName": "Ping Boost",
@@ -570,11 +551,10 @@
         "Category": "CSGO:stadia_controller",
         "Subcategory": "Server:dns:1",
         "Description": "If required, you can change the IPv4 IP binding of the server and RCON by changing the Application IP Binding for this instance. NOTE: AMP requires the server to be bound to a specific IP, rather than 0.0.0.0, for the server to log to AMP's console. The IP must also be reachable by AMP",
-        "Keywords": "ip,binding",
         "FieldName": "ip",
-        "InputType": "hidden",
+        "InputType": "HIDDEN",
         "ParamFieldName": "ip",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Additional Command Line Parameters",
@@ -585,8 +565,7 @@
         "FieldName": "CustomParameters",
         "InputType": "text",
         "ParamFieldName": "CustomParameters",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Additional Console Variables",
@@ -598,8 +577,7 @@
         "InputType": "text",
         "ParamFieldName": "CustomConVars",
         "DefaultValue": "",
-        "Placeholder": "+sv_gravity \"500\"",
-        "EnumValues": {}
+        "Placeholder": "+sv_gravity \"500\""
     },
     {
         "DisplayName": "Additional Server Settings",
@@ -609,10 +587,8 @@
         "Keywords": "additional,settings,custom",
         "FieldName": "UserSettings",
         "InputType": "Textarea",
-        "IsFlagArgument": false,
         "ParamFieldName": "UserSettings",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Enable Friendly Fire",
@@ -742,12 +718,11 @@
         "Keywords": "time,limit,rotation,mp_timelimit",
         "FieldName": "mp_timelimit",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "mp_timelimit",
         "DefaultValue": "0",
         "Placeholder": "0",
-        "Suffix": "minutes",
-        "EnumValues": {}
+        "Suffix": "minutes"
     },
     {
         "DisplayName": "Map Rotation Round Limit",
@@ -757,12 +732,11 @@
         "Keywords": "round,limit,rotation,mp_maxrounds",
         "FieldName": "mp_maxrounds",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "mp_maxrounds",
         "DefaultValue": "0",
         "Placeholder": "0",
-        "Suffix": "rounds",
-        "EnumValues": {}
+        "Suffix": "rounds"
     },
     {
         "DisplayName": "Spectator Mode",
@@ -863,13 +837,12 @@
         "Keywords": "max,spectators,clients,viewers,sourcetv,tv,tv_maxclients",
         "FieldName": "tv_maxclients",
         "InputType": "number",
-        "MinValue": "0",
-        "MaxValue": "255",
+        "MinValue": 0,
+        "MaxValue": 255,
         "ParamFieldName": "tv_maxclients",
         "DefaultValue": "128",
         "Placeholder": "128",
-        "Suffix": "viewers",
-        "EnumValues": {}
+        "Suffix": "viewers"
     },
     {
         "DisplayName": "Maximum SourceTV Bandwidth",
@@ -879,11 +852,10 @@
         "Keywords": "maximum,bandwidth,rate,sourcetv,tv,tv_maxrate",
         "FieldName": "tv_maxrate",
         "InputType": "number",
-        "MinValue": "0",
+        "MinValue": 0,
         "ParamFieldName": "tv_maxrate",
         "DefaultValue": "196608",
-        "Placeholder": "196608",
-        "EnumValues": {}
+        "Placeholder": "196608"
     },
     {
         "DisplayName": "Metamod Branch",
@@ -912,8 +884,7 @@
         "InputType": "number",
         "ParamFieldName": "MetamodBuild",
         "DefaultValue": "965",
-        "Placeholder": "965",
-        "EnumValues": {}
+        "Placeholder": "965"
     },
     {
         "DisplayName": "SourceMod Branch",
@@ -942,8 +913,7 @@
         "InputType": "number",
         "ParamFieldName": "SourceModVersion",
         "DefaultValue": "6235",
-        "Placeholder": "6235",
-        "EnumValues": {}
+        "Placeholder": "6235"
     },
     {
         "DisplayName": "Steam Username (Depot Download)",
@@ -954,8 +924,7 @@
         "FieldName": "DepotSteamUsername",
         "InputType": "text",
         "ParamFieldName": "DepotSteamUsername",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     },
     {
         "DisplayName": "Steam Password (Depot Download)",
@@ -966,7 +935,6 @@
         "FieldName": "DepotSteamPassword",
         "InputType": "Password",
         "ParamFieldName": "DepotSteamPassword",
-        "DefaultValue": "",
-        "EnumValues": {}
+        "DefaultValue": ""
     }
 ]
